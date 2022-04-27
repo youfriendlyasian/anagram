@@ -1,44 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css.css" />
 <title>Word Search</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
-    #container
-    {
-        width:810px;
-        height:650px;
-        margin:0px auto;
-    }
-    #hint
-    {
-        width:200px;
-        height:570px;
-        float:left;
-        text-align:center;
-        font-size: 30px;
-        border:1px solid black;
-    }
-    #letters
-    {  
-        width:580px;
-        height:580px;
-        float:right;
-
-    }
-    .individual
-    {
-        width:40px;
-        height:40px;
-        float:left;
-        border:1px solid black;
-        border-radius:2px;
-        font-size:25px;
-        text-align:center;
-        margin:3px;
-
-    }
-</style>
 <script>
     var myWords = ["EGG", "MILK", "BUTTER", "JAM", "SUGAR ", "GRAPE", "OATS", "BREAD"]
     $(document).ready(function(){
