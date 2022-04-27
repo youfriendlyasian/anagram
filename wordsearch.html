@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Word Search</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+    #container
+    {
+        width:810px;
+        height:650px;
+        margin:0px auto;
+    }
+    #hint
+    {
+        width:200px;
+        height:570px;
+        float:left;
+        text-align:center;
+        font-size: 30px;
+        border:1px solid black;
+    }
+    #letters
+    {  
+        width:580px;
+        height:580px;
+        float:right;
+
+    }
+    .individual
+    {
+        width:40px;
+        height:40px;
+        float:left;
+        border:1px solid black;
+        border-radius:2px;
+        font-size:25px;
+        text-align:center;
+        margin:3px;
+
+    }
+</style>
+<script>
+    var myWords = ["EGG", "MILK", "BUTTER", "JAM", "SUGAR ", "GRAPE", "OATS", "BREAD"]
+    $(document).ready(function(){
+        arrangeGame()
+    });
+    function arrangeGame()
+    {
+        $.each(myWords, function(key, item){
+            $("#hint").append("<p>"+item+"</p>")
+        })
+        for(var i=1;i<=12;i++)
+        {
+            for(var j=1;j<=12;j++)
+            {
+                $("#letters").append("<div class=individual data-row="+i+" data-column="+j+"></div>")
+            }
+        }
+        placeCorrectLetters(myWords);
+    }
+    function placeCorrectLetters(myArr)
+    {
+        var positions = ["row", "column"];
+        var nextLetter = 0;
+        var newStart = 0;
+        for(var i=0;i<myArr.length;i++)
+        {
+            var orientation = positions[Math.floor(Math.random()*positions.length)];
+            var start = Math.floor(Math.random()*$(".individual").length)
+            var myRow = $(".individual:eq(" + start + ")").data("row");
+            var myColumn = $(".individual:eq(" + start + ")").data("column");
+            //console.log(myArr[i] + " : " + orientation + " : " + start + " : " + myRow + " : "+ myColumn);
+            if(orientation == "row")
+            {
+                nextLetter = 1;
+                if((myColumn*1) + myArr[i].length <=12) {
+                    newStart = start;
+                    console.log("space in row: " + myArr[i] + ":" + start + ":" + myColumn);
+                }
+                else {
+                    var newColumn = 12 - myArr[i].length;
+                    newStart = $(".individual[data-row=" + myRow + "][data-column=" + newColumn + "]").index();
+                    console.log("no space in row: " + myArr[i] + ":" + start + ":" + myColumn + ":" + newStart);
+                }
+            }
+            else if(orientation == "column")
+            {
+                nextLetter = 12
+                if((myRow*1) + myArr[i].length <=12){
+                    newStart = start;
+                    console.log("space in column: " + myArr[i] + ":" + start + ":" +myRow);
+                }
+                else {
+                    var newRow = 12 - myArr[i].length;
+                    newStart = $(".individual[data-row=" + newRow + "][data-column=" + myColumn + "]").index();
+                    console.log("no space in column: " + myArr[i] + ":" + start + ":" + myRow + ":" + newStart);
+                }
+            }
+            var characters = myArr[i].split("");
+            var nextPosition = 0;
+            $.each(characters,function(key, item){
+                $(".individual:eq(" + (newStart + nextPosition) + ")").html(item)
+                nextPosition += nextLetter;
+            })
+        }
+    }
+</script>
+</head>
+<body>
+    <div id="container">
+        <div id="hint"></div>
+        <div id="letters"></div>
+    </div>
+
+</body>
+</html>
