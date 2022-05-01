@@ -5,7 +5,7 @@
 <title>Word Search</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    var myWords = ["EGG", "MILK", "BUTTER", "JAM", "SUGAR ", "GRAPE", "OATS", "BREAD"];
+    var myWords = ["EGG", "MILK", "BUTTER", "JAM", "SUGAR", "GRAPE", "OATS", "BREAD"];
     var tempWords = [];
     $(document).ready(function(){
         arrangeGame()
@@ -24,7 +24,18 @@
         }
         placeCorrectLetters(myWords);
         placeCorrectLetters(tempWords);
+        $.each($(".individual"), function(key, item){
+            if($(item).attr("data-word") == undefined)
+                $(this).html(randomLetter());
+        })
     }
+    function randomLetter()
+    {
+        var alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return alphabets.charAt(Math.floor(Math.random()*26))
+    }
+
+
     function checkOccupied(word, starting, orientation)
     {
         var status = ""; var incrementBy = 0;
@@ -48,7 +59,7 @@
     }
     function placeCorrectLetters(myArr)
     {
-        var positions = ["row", "column"];
+        var positions = ["row", "column", "diagonal"];
         var nextLetter = 0;
         var newStart = 0;
         for(var i=0;i<myArr.length;i++)
@@ -84,6 +95,7 @@
                     console.log("no space in column: " + myArr[i] + ":" + start + ":" + myRow + ":" + newStart);
                 }
             }
+
             var characters = myArr[i].split("");
             var nextPosition = 0;
             var occupied = checkOccupied(myArr[i], newStart, orientation);
@@ -92,6 +104,7 @@
                 $.each(characters,function(key, item){
                 $(".individual:eq(" + (newStart + nextPosition) + ")").html(item);
                 $(".individual:eq(" + (newStart + nextPosition) + ")").attr("data-word", myArr[i]);
+                $(".individual:eq(" + (newStart + nextPosition) + ")").css("background", "pink");
                 nextPosition += nextLetter;
                 })
             }
@@ -100,6 +113,7 @@
             }
         }
     }
+
 </script>
 </head>
 <body>
